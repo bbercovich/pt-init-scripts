@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
+
+# Comments to support chkconfig on RedHat Linux
+# chkconfig: 2345 99 99
+# description: A program to kill long running queries inside mysql.
+
 ### BEGIN INIT INFO
 # Provides:          pt-kill
 # Required-Start:    $network $named $remote_fs $syslog
 # Required-Stop:     $network $named $remote_fs $syslog
-# Should-Start:      pt-stalk
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-### END INIT INFO                                                                                                                                          
+### END INIT INFO       
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 NAME="pt-kill"
