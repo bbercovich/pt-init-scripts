@@ -37,7 +37,7 @@ else
 fi
 
 sig () {
-    test -s "$PIDFILE" && kill -$1 `cat $PIDFILE`
+    test -s "$PIDFILE" && (kill -$1 `cat $PIDFILE` 2>/dev/null)
 }
 
 start() {
@@ -51,6 +51,7 @@ stop() {
       echo -n "."
       sleep 1
     done
+    rm -f $PIDFILE
     return 0
   else
     echo "$DESC is not running." 
