@@ -20,7 +20,22 @@ test -x $DAEMON || exit 0
 
 [ -r /etc/default/pt-stalk ] && . /etc/default/pt-stalk
 
-. /lib/lsb/init-functions
+#
+# Use LSB init script functions for printing messages, if possible
+#
+lsb_functions="/lib/lsb/init-functions"
+if test -f $lsb_functions ; then
+  . $lsb_functions
+else
+  log_success_msg()
+  {
+    echo " SUCCESS! $@"
+  }
+  log_failure_msg()
+  {
+    echo " ERROR! $@"
+  }
+fi
 
 sig () {
     test -s "$PIDFILE" && kill -$1 `cat $PIDFILE`
@@ -60,25 +75,43 @@ status() {
 
 case "$1" in
   start)
-    log_begin_msg "Starting $DESC"
+    echo "Starting $DESC"
   	start
-  	log_end_msg $?
+  	if [ $? = 0 ] ; then
+        log_success_msg 
+        exit 0
+    elif [ $? = 1 ] ; then
+        log_failure_msg 
+        exit 1
+    fi
   	;;
 
   stop)
-  	log_begin_msg "Stopping $DESC"
+  	echo "Stopping $DESC"
   	stop
-  	log_end_msg $?
+  	if [ $? = 0 ] ; then
+        log_success_msg 
+        exit 0
+    elif [ $? = 1 ] ; then
+        log_failure_msg 
+        exit 1
+    fi
   	;;
   status)
     status ;;
 
   restart)
-    log_begin_msg "Restarting $DESC"
+    echo "Restarting $DESC"
     stop
     sleep 1
     start
-    log_end_msg $?
+    if [ $? = 0 ] ; then
+        log_success_msg 
+        exit 0
+    elif [ $? = 1 ] ; then
+        log_failure_msg 
+        exit 1
+    fi
     ;;
 
   *)
