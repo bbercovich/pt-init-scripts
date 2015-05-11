@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+
+# Comments to support chkconfig on RedHat Linux
+# chkconfig: 2345 99 99
+# description: A program to gather large amounts of data durning mysql issues.
+
 ### BEGIN INIT INFO
 # Provides:          pt-stalk
 # Required-Start:    $network $named $remote_fs $syslog
