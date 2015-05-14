@@ -14,16 +14,16 @@
 ### END INIT INFO                                                                                                                                          
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON="/usr/bin/pt-stalk"
-DAEMON_OPTS="--config /etc/percona-toolkit/pt-stalk.conf"
 NAME="pt-stalk"
 DESC="pt-stalk"
+DAEMON="/usr/bin/$NAME"
 PIDFILE="/var/run/${NAME}.pid"
+CONFIGFILE="/etc/percona-toolkit/${NAME}.conf"
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+DAEMON_OPTS="--config $CONFIGFILE --daemonize --pid $PIDFILE"
 STALKHOME="/var/lib/pt-stalk"
 
 test -x $DAEMON || exit 0
-
-[ -r /etc/default/pt-stalk ] && . /etc/default/pt-stalk
 
 #
 # Use LSB init script functions for printing messages, if possible
